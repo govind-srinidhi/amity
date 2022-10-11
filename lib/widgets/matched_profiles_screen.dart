@@ -182,8 +182,7 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
       color: Color.fromRGBO(252, 245, 227, 1),
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        body: Container(
-          color: Color.fromRGBO(252, 245, 227, 1),
+        body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
