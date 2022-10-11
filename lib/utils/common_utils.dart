@@ -44,7 +44,6 @@ class CommonUtils {
   }
 
   static Future<void> launchUrl(String url) async {
-    print('URL: $url');
     if (await canLaunchUrlString(url)) {
       launchUrlString(url);
     } else {

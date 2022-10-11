@@ -58,7 +58,6 @@ class HttpHandler<T extends JSONConverterWithList> {
     if (response.statusCode == 200) {
       return modelObject?.fromJson(jsonDecode(response.body));
     } else {
-      print('OH no!');
       throw Exception("Failed to send your request.");
     }
   }

@@ -24,8 +24,6 @@ class AuthenticationService {
 
   Future<bool> signUp(String username, String password,
       List<AttributeArg>? userAttributes) async {
-    print('Signup:  ${AppConfig.properties[Constants.USER_POOL_ID] as String}');
-    print('${AppConfig.properties[Constants.USER_POOL_CLIENT_ID] as String}');
     final userPool = CognitoUserPool(
       AppConfig.properties[Constants.USER_POOL_ID] as String,
       AppConfig.properties[Constants.USER_POOL_CLIENT_ID] as String,
@@ -33,8 +31,7 @@ class AuthenticationService {
     try {
       await userPool.signUp(username, password, userAttributes: userAttributes);
       return true;
-    } catch (e, currentTrace) {
-      print(currentTrace);
+    } catch (e) {
       rethrow;
     }
   }

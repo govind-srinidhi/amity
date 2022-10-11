@@ -71,9 +71,6 @@ class AuthenticationController {
     String password =
         pin ?? userCredentialsMap[Constants.DEVICE_PASSWORD]?.value as String;
 
-    print(
-        'Actual password: ${userCredentialsMap[Constants.DEVICE_PASSWORD]?.value}, entered: $pin');
-
     try {
       CognitoUserSession? session =
           await authenticationService.signIn(username, password);
@@ -92,7 +89,6 @@ class AuthenticationController {
 
       return true;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

@@ -1,7 +1,5 @@
 /// Sign up page, where user can enter his desired pin.
 
-import 'dart:math';
-
 import "package:flutter/material.dart";
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';

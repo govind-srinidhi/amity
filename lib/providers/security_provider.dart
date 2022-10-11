@@ -112,7 +112,6 @@ class SecurityProvider extends ChangeNotifier {
 
   Future<void> decrementAttemps() async {
     attempts--;
-    print('Attempts: $attempts');
 
     if (attempts == 0) {
       return await eraseAllData();

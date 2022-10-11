@@ -37,11 +37,10 @@ class _SignupScreen extends State<SignupScreen> {
               [ConfigurationSchema(key: "emailId", value: email)]);
 
       Navigator.of(context).pushReplacementNamed(SignupSuccessScreen.routeName);
-    } catch (e, stackTrace) {
+    } catch (e) {
       setState(() {
         _showLoader = false;
       });
-      print(stackTrace);
       CommonWidgets.showSnackbar("User signup failed. Please try again.",
           Constants.MESSAGE_ERROR, _scaffoldKey.currentContext as BuildContext);
     }
