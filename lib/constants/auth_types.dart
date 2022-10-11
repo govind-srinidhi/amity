@@ -1,0 +1,1 @@
+enum AuthTypes { Basic, JWTToken }
