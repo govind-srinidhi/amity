@@ -1,4 +1,5 @@
 import 'package:amity/constants/tts_status.dart';
+import 'package:amity/schemas/matched_user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -25,7 +26,7 @@ class _DiscoveredProfilesPageViewState
   bool _isInitialized = false;
   bool _showLoader = false;
   List<UserFriendsSchema> _potentialFriends = [];
-  List<UserSchema> _matchedUsers = [];
+  List<MatchedUserInfoSchema> _matchedUsers = [];
   final FlutterTts _flutterTts = FlutterTts();
   TtsStatus _ttsStatus = TtsStatus.stopped;
 
@@ -68,7 +69,7 @@ class _DiscoveredProfilesPageViewState
             .getUserDetail("userId");
 
     List<UserFriendsSchema> potentialFriends = [];
-    List<UserSchema> matchedUsers = [];
+    List<MatchedUserInfoSchema> matchedUsers = [];
     if (configurationSchema != null) {
       potentialFriends = await UserFriendsController()
           .getFriends(configurationSchema.id as int);
@@ -86,9 +87,11 @@ class _DiscoveredProfilesPageViewState
   bool _isPotentialUserMatched(UserFriendsSchema potentialFriend) {
     return _matchedUsers
             .firstWhere(
-                (element) => element.userId == potentialFriend.user?.userId,
-                orElse: () => UserSchema())
-            .userId !=
+                (element) =>
+                    element.matchedUser?.userId == potentialFriend.user?.userId,
+                orElse: () => MatchedUserInfoSchema())
+            .matchedUser
+            ?.userId !=
         null;
   }
 
@@ -104,7 +107,8 @@ class _DiscoveredProfilesPageViewState
       await UserMatchesController().deleteMatchedUser(
           configurationSchema.id as int, matchedUser.userId as int);
       setState(() {
-        _matchedUsers.removeWhere((user) => user.userId == matchedUser.userId);
+        _matchedUsers.removeWhere(
+            (user) => user.matchedUser?.userId == matchedUser.userId);
         _showLoader = false;
       });
       Navigator.of(context).push(OverlayScreen(
@@ -126,8 +130,11 @@ class _DiscoveredProfilesPageViewState
     if (configurationSchema != null) {
       await UserMatchesController().addMatchedUser(
           configurationSchema.id as int, matchedUser.userId as int);
+
+      final matchedUsers = await UserMatchesController()
+          .getMatchedUsers(configurationSchema.id as int);
       setState(() {
-        _matchedUsers.add(matchedUser);
+        _matchedUsers = matchedUsers;
         _showLoader = false;
       });
       Navigator.of(context).push(OverlayScreen(

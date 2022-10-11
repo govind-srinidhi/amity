@@ -1,3 +1,4 @@
+import 'package:amity/schemas/matched_user_info.dart';
 import 'package:amity/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -6,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:amity/controllers/user_matches_controller.dart';
 import 'package:amity/providers/user_details_provider.dart';
 import 'package:amity/schemas/configuration_schema.dart';
-import 'package:amity/schemas/user_schema.dart';
 import 'package:amity/widgets/discover/discover_profiles_screen.dart';
 import 'package:amity/widgets/profile/view_my_profile_screen.dart';
 import 'package:amity/widgets/profile/view_profile_screen.dart';
@@ -22,7 +22,7 @@ class MatchedProfilesScreen extends StatefulWidget {
 
 class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
   bool _isInitialized = false;
-  List<UserSchema> _matchedUserSchemas = [];
+  List<MatchedUserInfoSchema> _matchedUserSchemas = [];
   bool _showLoader = false;
 
   Future<void> _determineMatchedProfiles(BuildContext context) async {
@@ -31,10 +31,11 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
     });
     final ConfigurationSchema? configurationSchema =
         Provider.of<UserDetailsProvider>(context).getUserDetail("userId");
-    final List<UserSchema> matchedProfiles = configurationSchema != null
-        ? await UserMatchesController()
-            .getMatchedUsers(configurationSchema.id as int)
-        : [];
+    final List<MatchedUserInfoSchema> matchedProfiles =
+        configurationSchema != null
+            ? await UserMatchesController()
+                .getMatchedUsers(configurationSchema.id as int)
+            : [];
     setState(() {
       _matchedUserSchemas = matchedProfiles;
       _showLoader = false;
@@ -44,7 +45,7 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
   Widget _showMatchedUser(
       {required double screenWidth,
       required double paddingAllDirection,
-      required UserSchema matchedUser,
+      required MatchedUserInfoSchema matchedUserInfoSchema,
       required BuildContext context}) {
     return Card(
       elevation: 0,
@@ -62,7 +63,7 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
             Padding(
               padding: EdgeInsets.all(paddingAllDirection / 2),
               child: Text(
-                "${matchedUser.firstName}, ${matchedUser.age}",
+                "${matchedUserInfoSchema.matchedUser?.firstName}, ${matchedUserInfoSchema.matchedUser?.age}",
                 style: Theme.of(context).textTheme.headline2,
               ),
             ),
@@ -78,7 +79,7 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
                     width: screenWidth / 2 - 2 * paddingAllDirection,
                     child: ElevatedButton(
                       onPressed: () => CommonUtils.launchUrl(
-                          'tel:+31${matchedUser.contactDetails?['mobileNumber']?['phoneNumber']}'),
+                          'tel:+31${matchedUserInfoSchema.matchedUser?.contactDetails?['mobileNumber']?['phoneNumber']}'),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Color.fromRGBO(216, 239, 243, 1)),
@@ -95,7 +96,13 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
                     child: ElevatedButton(
                       onPressed: () => Navigator.of(context)
                           .pushReplacementNamed(ViewProfileScreen.routeName,
-                              arguments: {"userId": matchedUser.userId as int}),
+                              arguments: {
+                            "userId": matchedUserInfoSchema.matchedUser?.userId
+                                as int,
+                            "distance":
+                                (matchedUserInfoSchema.distance as double)
+                                    .toStringAsFixed(2)
+                          }),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Color.fromRGBO(216, 239, 243, 1)),
@@ -202,11 +209,11 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
                     Wrap(
                         runSpacing: paddingAllDirection,
                         children: _matchedUserSchemas
-                            .map((userSchema) => _showMatchedUser(
+                            .map((matchedUserInfoSchema) => _showMatchedUser(
                                 context: context,
                                 screenWidth: screenWidth,
                                 paddingAllDirection: paddingAllDirection,
-                                matchedUser: userSchema))
+                                matchedUserInfoSchema: matchedUserInfoSchema))
                             .toList())
                   ],
                 ),

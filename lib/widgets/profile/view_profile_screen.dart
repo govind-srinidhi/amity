@@ -39,15 +39,15 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
   void didChangeDependencies() {
     if (!_isInitialized) {
       final routeArguments =
-          ModalRoute.of(context)?.settings.arguments as Map<String, int>;
+          ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
       _getUserDetails(routeArguments["userId"] as int);
       _isInitialized = true;
     }
     super.didChangeDependencies();
   }
 
-  Widget _getFriendDetails({required double paddingAllDirection}) {
-    print('Friend');
+  Widget _getFriendDetails(
+      {required double paddingAllDirection, required String distance}) {
     return Container(
       padding: EdgeInsets.only(
           left: paddingAllDirection, right: paddingAllDirection),
@@ -63,7 +63,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                 ?.merge(TextStyle(fontWeight: FontWeight.w500)),
           ),
           Text(
-            "lives within 5 km",
+            "lives within ${distance} km",
             style: Theme.of(context).textTheme.headline4,
           ),
           Padding(
@@ -111,6 +111,8 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final paddingAllDirection = screenWidth / 14;
+    final routeArguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
 
     return LoadingOverlay(
       isLoading: _showLoader,
@@ -125,7 +127,9 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
           children: [
             Image.asset("assets/images/happy_seniors.png"),
             if (_friend.firstName != null)
-              _getFriendDetails(paddingAllDirection: paddingAllDirection),
+              _getFriendDetails(
+                  paddingAllDirection: paddingAllDirection,
+                  distance: routeArguments["distance"] as String),
             Padding(
               padding: EdgeInsets.all(paddingAllDirection),
               child: Row(
