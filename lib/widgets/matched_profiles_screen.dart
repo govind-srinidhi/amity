@@ -77,8 +77,8 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
                   SizedBox(
                     width: screenWidth / 2 - 2 * paddingAllDirection,
                     child: ElevatedButton(
-                      onPressed: () =>
-                          CommonUtils.launchUrl('tel:+31626238326'),
+                      onPressed: () => CommonUtils.launchUrl(
+                          'tel:+31${matchedUser.contactDetails?['mobileNumber']?['phoneNumber']}'),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Color.fromRGBO(216, 239, 243, 1)),

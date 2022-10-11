@@ -47,6 +47,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
   }
 
   Widget _getFriendDetails({required double paddingAllDirection}) {
+    print('Friend');
     return Container(
       padding: EdgeInsets.only(
           left: paddingAllDirection, right: paddingAllDirection),
@@ -62,7 +63,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                 ?.merge(TextStyle(fontWeight: FontWeight.w500)),
           ),
           Text(
-            "lives within 5km",
+            "lives within 5 km",
             style: Theme.of(context).textTheme.headline4,
           ),
           Padding(
@@ -92,8 +93,8 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                     color: Color.fromRGBO(216, 239, 243, 1),
                     borderRadius: BorderRadius.circular(6),
                     child: IconButton(
-                      onPressed: () =>
-                          CommonUtils.launchUrl('tel:+31626238326'),
+                      onPressed: () => CommonUtils.launchUrl(
+                          'tel:+31${_friend.contactDetails?['mobileNumber']?['phoneNumber']}'),
                       icon: Icon(MdiIcons.phone),
                     ),
                   ),
@@ -123,7 +124,8 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset("assets/images/happy_seniors.png"),
-            _getFriendDetails(paddingAllDirection: paddingAllDirection),
+            if (_friend.firstName != null)
+              _getFriendDetails(paddingAllDirection: paddingAllDirection),
             Padding(
               padding: EdgeInsets.all(paddingAllDirection),
               child: Row(
