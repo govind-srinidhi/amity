@@ -1,4 +1,6 @@
+import 'package:amity/constants/tts_status.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +26,38 @@ class _DiscoveredProfilesPageViewState
   bool _showLoader = false;
   List<UserFriendsSchema> _potentialFriends = [];
   List<UserSchema> _matchedUsers = [];
+  final FlutterTts _flutterTts = FlutterTts();
+  TtsStatus _ttsStatus = TtsStatus.stopped;
+
+  void registerTtsHandlers() {
+    _flutterTts.setStartHandler(() {
+      setState(() {
+        _ttsStatus = TtsStatus.running;
+      });
+    });
+    _flutterTts.setCompletionHandler(() {
+      setState(() {
+        _ttsStatus = TtsStatus.stopped;
+      });
+    });
+    _flutterTts.setErrorHandler((msg) {
+      setState(() {
+        _ttsStatus = TtsStatus.stopped;
+      });
+    });
+  }
+
+  Future _speak(bio) async {
+    var result = await _flutterTts.speak(bio);
+    if (result == 1) setState(() => _ttsStatus = TtsStatus.running);
+  }
+
+  Future _stop() async {
+    if (_ttsStatus != TtsStatus.stopped) {
+      var result = await _flutterTts.stop();
+      if (result == 1) setState(() => _ttsStatus = TtsStatus.stopped);
+    }
+  }
 
   Future<void> _discoverProfiles(BuildContext context) async {
     setState(() {
@@ -104,9 +138,14 @@ class _DiscoveredProfilesPageViewState
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     if (!_isInitialized) {
       _discoverProfiles(context);
+      await _flutterTts.setLanguage("en-US");
+      await _flutterTts.setSpeechRate(0.6);
+      await _flutterTts.setVolume(1.0);
+      await _flutterTts.setPitch(1.0);
+      registerTtsHandlers();
       _isInitialized = true;
     }
     super.didChangeDependencies();
@@ -175,6 +214,24 @@ class _DiscoveredProfilesPageViewState
                           ),
                         ),
                 ),
+                SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: Material(
+                      color: Color.fromARGB(255, 191, 195, 228),
+                      borderRadius: BorderRadius.circular(6),
+                      child: _ttsStatus == TtsStatus.stopped
+                          ? IconButton(
+                              onPressed: () =>
+                                  _speak(potentialFriend.user?.bio),
+                              icon: Icon(MdiIcons.play),
+                            )
+                          : IconButton(
+                              onPressed: () => _stop(),
+                              icon: Icon(MdiIcons.stop),
+                            )),
+                )
               ],
             ),
           )
@@ -196,13 +253,13 @@ class _DiscoveredProfilesPageViewState
       ),
       color: Color.fromRGBO(252, 245, 227, 1),
       child: PageView(
-        controller: controller,
-        children: _potentialFriends
-            .map((friend) => _getPotentialFriendDetails(
-                potentialFriend: friend,
-                paddingAllDirection: paddingAllDirection))
-            .toList(),
-      ),
+          controller: controller,
+          children: _potentialFriends
+              .map((friend) => _getPotentialFriendDetails(
+                  potentialFriend: friend,
+                  paddingAllDirection: paddingAllDirection))
+              .toList(),
+          onPageChanged: (value) => _stop()),
     );
   }
 }
