@@ -1,0 +1,6 @@
+{
+  "STAGE": "develop",
+  "USER_POOL_ID": "eu-central-1_38WR1hxCk",
+  "USER_POOL_CLIENT_ID": "16o0rceggopereavnqlof5hnnt",
+  "DOMAIN_URL": "amity-hackathon.herokuapp.com"
+}
