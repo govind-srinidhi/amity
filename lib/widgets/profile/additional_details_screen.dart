@@ -34,6 +34,7 @@ class _AdditionalDetailsScreen extends State<AdditionalDetailsScreen> {
             style:
                 TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
           ),
+          avatar: (selectedInterestIndex != -1) ? Icon(Icons.check) : null,
           backgroundColor: (selectedInterestIndex != -1)
               ? Color.fromRGBO(231, 240, 117, 1)
               : Color.fromRGBO(216, 239, 243, 1),
