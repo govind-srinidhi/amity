@@ -77,12 +77,8 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
                   SizedBox(
                     width: screenWidth / 2 - 2 * paddingAllDirection,
                     child: ElevatedButton(
-                      onPressed: () => (matchedUser
-                                  .contactDetails?["mobileNumber"] !=
-                              null)
-                          ? CommonUtils.launchUrl(
-                              'tel:+31${matchedUser.contactDetails?["mobileNumber"]}')
-                          : {},
+                      onPressed: () =>
+                          CommonUtils.launchUrl('tel:+31626238326'),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Color.fromRGBO(216, 239, 243, 1)),
@@ -130,7 +126,10 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
       height: screenWidth / 6,
       child: ClipRect(
         child: Material(
-          borderRadius: BorderRadius.circular(6),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
+            side: const BorderSide(color: Colors.black, width: 1),
+          ),
           color: routeName == null
               ? Color.fromRGBO(177, 223, 231, 1)
               : Color.fromRGBO(216, 239, 243, 1),

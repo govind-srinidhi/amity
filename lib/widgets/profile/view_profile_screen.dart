@@ -47,9 +47,9 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
   }
 
   Widget _getFriendDetails({required double paddingAllDirection}) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(paddingAllDirection),
+    return Container(
+      padding: EdgeInsets.only(
+          left: paddingAllDirection, right: paddingAllDirection),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,45 +86,21 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
             padding: EdgeInsets.only(
                 top: paddingAllDirection, bottom: paddingAllDirection),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  width: screenWidth / 2 - 2 * paddingAllDirection,
-                  child: ElevatedButton(
-                    onPressed: () => (_friend.contactDetails?["phoneNumber"] !=
-                            null)
-                        ? CommonUtils.launchUrl(
-                            'tel:+31${_friend.contactDetails?["phoneNumber"] as String}')
-                        : {},
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromRGBO(216, 239, 243, 1)),
-                      side: MaterialStateProperty.all<BorderSide>(
-                          BorderSide(color: Colors.black)),
-                      elevation: MaterialStateProperty.all<double>(0),
+                Expanded(
+                  child: Material(
+                    color: Color.fromRGBO(216, 239, 243, 1),
+                    borderRadius: BorderRadius.circular(6),
+                    child: IconButton(
+                      onPressed: () =>
+                          CommonUtils.launchUrl('tel:+31626238326'),
+                      icon: Icon(MdiIcons.phone),
                     ),
-                    child:
-                        Text("Call", style: Theme.of(context).textTheme.button),
-                  ),
-                ),
-                SizedBox(
-                  width: screenWidth / 2 - 2 * paddingAllDirection,
-                  child: ElevatedButton(
-                    onPressed: () => {},
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromRGBO(255, 163, 102, 1)),
-                      side: MaterialStateProperty.all<BorderSide>(
-                          BorderSide(color: Colors.black)),
-                      elevation: MaterialStateProperty.all<double>(0),
-                    ),
-                    child: Text("Unmatch",
-                        style: Theme.of(context).textTheme.button),
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -144,7 +120,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
       child: Container(
         color: Color.fromRGBO(252, 245, 227, 1),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset("assets/images/happy_seniors.png"),
             _getFriendDetails(paddingAllDirection: paddingAllDirection),

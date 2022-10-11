@@ -53,7 +53,10 @@ class CommonWidgets {
       height: screenWidth / 6,
       child: ClipRect(
         child: Material(
-          borderRadius: BorderRadius.circular(6),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
+            side: const BorderSide(color: Colors.black, width: 1),
+          ),
           color: routeName == null
               ? Color.fromRGBO(177, 223, 231, 1)
               : Color.fromRGBO(216, 239, 243, 1),
