@@ -133,7 +133,7 @@ class _ViewMyProfileScreenState extends State<ViewMyProfileScreen> {
         backgroundColor: Color.fromRGBO(252, 245, 227, 1),
         body: SingleChildScrollView(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.asset("assets/images/happy_seniors.png"),
               if (!_showLoader) ...[
@@ -177,7 +177,7 @@ class _ViewMyProfileScreenState extends State<ViewMyProfileScreen> {
                     ],
                   ),
                 )
-              ]
+              ],
             ],
           ),
         ),

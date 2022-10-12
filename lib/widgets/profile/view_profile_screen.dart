@@ -126,50 +126,51 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset("assets/images/happy_seniors.png"),
-            if (_friend.firstName != null)
+            if (!_showLoader) ...[
               _getFriendDetails(
                   paddingAllDirection: paddingAllDirection,
                   distance: routeArguments["distance"] as String),
-            Padding(
-              padding: EdgeInsets.all(paddingAllDirection),
-              child: Row(
-                children: [
-                  Flexible(
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: CommonWidgets.getFooterButton(
-                          screenWidth: screenWidth,
-                          icon: Icon(MdiIcons.eye),
-                          iconText: 'Discover',
-                          routeName: DiscoverProfilesScreen.routeName,
-                          context: context),
+              Padding(
+                padding: EdgeInsets.all(paddingAllDirection),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: CommonWidgets.getFooterButton(
+                            screenWidth: screenWidth,
+                            icon: Icon(MdiIcons.eye),
+                            iconText: 'Discover',
+                            routeName: DiscoverProfilesScreen.routeName,
+                            context: context),
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: CommonWidgets.getFooterButton(
-                          screenWidth: screenWidth,
-                          icon: Icon(Icons.star_outline),
-                          iconText: 'Matches',
-                          routeName: MatchedProfilesScreen.routeName,
-                          context: context),
+                    Flexible(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: CommonWidgets.getFooterButton(
+                            screenWidth: screenWidth,
+                            icon: Icon(Icons.star_outline),
+                            iconText: 'Matches',
+                            routeName: MatchedProfilesScreen.routeName,
+                            context: context),
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: CommonWidgets.getFooterButton(
-                          screenWidth: screenWidth,
-                          icon: Icon(MdiIcons.faceManOutline),
-                          iconText: 'Profile',
-                          routeName: ViewMyProfileScreen.routeName,
-                          context: context),
+                    Flexible(
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: CommonWidgets.getFooterButton(
+                            screenWidth: screenWidth,
+                            icon: Icon(MdiIcons.faceManOutline),
+                            iconText: 'Profile',
+                            routeName: ViewMyProfileScreen.routeName,
+                            context: context),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
+                  ],
+                ),
+              )
+            ]
           ],
         ),
       ),

@@ -217,45 +217,47 @@ class _MatchedProfilesScreenState extends State<MatchedProfilesScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(paddingAllDirection),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: _getFooterButton(
-                          screenWidth: screenWidth,
-                          icon: Icon(MdiIcons.eye),
-                          iconText: 'Discover',
-                          routeName: DiscoverProfilesScreen.routeName,
+              if (!_showLoader) ...[
+                Padding(
+                  padding: EdgeInsets.all(paddingAllDirection),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: _getFooterButton(
+                            screenWidth: screenWidth,
+                            icon: Icon(MdiIcons.eye),
+                            iconText: 'Discover',
+                            routeName: DiscoverProfilesScreen.routeName,
+                          ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: _getFooterButton(
-                          screenWidth: screenWidth,
-                          icon: Icon(Icons.star_outline),
-                          iconText: 'Matches',
+                      Flexible(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: _getFooterButton(
+                            screenWidth: screenWidth,
+                            icon: Icon(Icons.star_outline),
+                            iconText: 'Matches',
+                          ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: _getFooterButton(
-                          screenWidth: screenWidth,
-                          icon: Icon(MdiIcons.faceManOutline),
-                          iconText: 'Profile',
-                          routeName: ViewMyProfileScreen.routeName,
+                      Flexible(
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: _getFooterButton(
+                            screenWidth: screenWidth,
+                            icon: Icon(MdiIcons.faceManOutline),
+                            iconText: 'Profile',
+                            routeName: ViewMyProfileScreen.routeName,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
+                    ],
+                  ),
+                )
+              ]
             ],
           ),
         ),
